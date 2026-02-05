@@ -1,9 +1,9 @@
 # SwiftVerificar-wcag-algs Progress
 
 ## Current State
-- Last completed sprint: 7
+- Last completed sprint: 8
 - Build status: passing
-- Total test count: 1000+
+- Total test count: 1093+
 - Cumulative coverage: 95%+
 
 ## Completed Sprints
@@ -14,9 +14,10 @@
 - Sprint 5: Structure Tree Analysis — 3 types, 107 new tests (777+ total) ✅
 - Sprint 6: Content Extraction — 3 types, 106 new tests (880+ total) ✅
 - Sprint 7: Accessibility Checkers — 4 types, 120+ new tests (1000+ total) ✅
+- Sprint 8: Validation Runners — 3 types, 93 new tests (1093+ total) ✅
 
 ## Next Sprint
-- Sprint 8: Table Validation
+- Sprint 9: Table Validation
 - Reference: TODO.md Phase 4
 
 ## Files Created (cumulative)
@@ -50,6 +51,9 @@
 - Sources/SwiftVerificarWCAGAlgs/Checkers/AltTextChecker.swift
 - Sources/SwiftVerificarWCAGAlgs/Checkers/LanguageChecker.swift
 - Sources/SwiftVerificarWCAGAlgs/Checkers/LinkPurposeChecker.swift
+- Sources/SwiftVerificarWCAGAlgs/Validation/ValidationRunner.swift
+- Sources/SwiftVerificarWCAGAlgs/Validation/ValidationReport.swift
+- Sources/SwiftVerificarWCAGAlgs/Validation/WCAGValidator.swift
 
 ### Tests
 - Tests/SwiftVerificarWCAGAlgsTests/BoundingBoxTests.swift
@@ -81,6 +85,9 @@
 - Tests/SwiftVerificarWCAGAlgsTests/AltTextCheckerTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/LanguageCheckerTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/LinkPurposeCheckerTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/ValidationRunnerTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/ValidationReportTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/WCAGValidatorTests.swift
 
 ## Cross-Package Needs
 - (none)
