@@ -1,20 +1,20 @@
 # SwiftVerificar-wcag-algs Progress
 
 ## Current State
-- Last completed sprint: 3
-- Last commit hash: 11288d7
+- Last completed sprint: 4
+- Last commit hash: 3580598
 - Build status: passing
-- Total test count: 407
-- Cumulative coverage: 97.45%
+- Total test count: 670
+- Cumulative coverage: 97.59%
 
 ## Completed Sprints
 - Sprint 1: Geometry — 3 types, 95 new tests (105 total) ✅
 - Sprint 2: Text Content — 6 types, 132 new tests (237 total) ✅
 - Sprint 3: Non-Text Content — 4 types, 170 new tests (407 total) ✅
+- Sprint 4: Semantic Types and Nodes — 6 types, 263 new tests (670 total) ✅
 
 ## Next Sprint
-- Sprint 4: Semantic Types and Nodes
-- Types to create: SemanticType, SemanticNode, ContentNode, FigureNode, TableNode, ListNode
+- Sprint 5: Contrast and Color
 - Reference: TODO.md Phase 2
 
 ## Files Created (cumulative)
@@ -32,6 +32,12 @@
 - Sources/SwiftVerificarWCAGAlgs/NonText/LineChunk.swift
 - Sources/SwiftVerificarWCAGAlgs/NonText/LineArtChunk.swift
 - Sources/SwiftVerificarWCAGAlgs/NonText/LinesCollection.swift
+- Sources/SwiftVerificarWCAGAlgs/Semantic/SemanticType.swift
+- Sources/SwiftVerificarWCAGAlgs/Semantic/SemanticNode.swift
+- Sources/SwiftVerificarWCAGAlgs/Semantic/ContentNode.swift
+- Sources/SwiftVerificarWCAGAlgs/Semantic/FigureNode.swift
+- Sources/SwiftVerificarWCAGAlgs/Semantic/TableNode.swift
+- Sources/SwiftVerificarWCAGAlgs/Semantic/ListNode.swift
 
 ### Tests
 - Tests/SwiftVerificarWCAGAlgsTests/BoundingBoxTests.swift
@@ -47,6 +53,12 @@
 - Tests/SwiftVerificarWCAGAlgsTests/LineChunkTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/LineArtChunkTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/LinesCollectionTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/SemanticTypeTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/SemanticNodeTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/ContentNodeTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/FigureNodeTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/TableNodeTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/ListNodeTests.swift
 
 ## Cross-Package Needs
 - (none)
