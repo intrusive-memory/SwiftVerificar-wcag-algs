@@ -1,9 +1,9 @@
 # SwiftVerificar-wcag-algs Progress
 
 ## Current State
-- Last completed sprint: 6
+- Last completed sprint: 7
 - Build status: passing
-- Total test count: 880+
+- Total test count: 1000+
 - Cumulative coverage: 95%+
 
 ## Completed Sprints
@@ -13,9 +13,10 @@
 - Sprint 4: Semantic Types and Nodes — 6 types, 263 new tests (670 total) ✅
 - Sprint 5: Structure Tree Analysis — 3 types, 107 new tests (777+ total) ✅
 - Sprint 6: Content Extraction — 3 types, 106 new tests (880+ total) ✅
+- Sprint 7: Accessibility Checkers — 4 types, 120+ new tests (1000+ total) ✅
 
 ## Next Sprint
-- Sprint 7: Table Validation
+- Sprint 8: Table Validation
 - Reference: TODO.md Phase 4
 
 ## Files Created (cumulative)
@@ -45,6 +46,10 @@
 - Sources/SwiftVerificarWCAGAlgs/ContentExtraction/ColorContrastCalculator.swift
 - Sources/SwiftVerificarWCAGAlgs/ContentExtraction/TextExtractor.swift
 - Sources/SwiftVerificarWCAGAlgs/ContentExtraction/ImageAnalyzer.swift
+- Sources/SwiftVerificarWCAGAlgs/Checkers/AccessibilityChecker.swift
+- Sources/SwiftVerificarWCAGAlgs/Checkers/AltTextChecker.swift
+- Sources/SwiftVerificarWCAGAlgs/Checkers/LanguageChecker.swift
+- Sources/SwiftVerificarWCAGAlgs/Checkers/LinkPurposeChecker.swift
 
 ### Tests
 - Tests/SwiftVerificarWCAGAlgsTests/BoundingBoxTests.swift
@@ -72,6 +77,10 @@
 - Tests/SwiftVerificarWCAGAlgsTests/ColorContrastCalculatorTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/TextExtractorTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/ImageAnalyzerTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/AccessibilityCheckerTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/AltTextCheckerTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/LanguageCheckerTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/LinkPurposeCheckerTests.swift
 
 ## Cross-Package Needs
 - (none)

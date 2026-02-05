@@ -135,10 +135,14 @@ public struct ColorContrastCalculator: Sendable, Hashable, Codable {
         switch (textType, level) {
         case (.logo, _):
             return 1.0  // No requirement for logo/brand text
+        case (.large, .a):
+            return 3.0  // Large text A: 3:1 (same as AA)
         case (.large, .aa):
             return 3.0  // Large text AA: 3:1
         case (.large, .aaa):
             return 4.5  // Large text AAA: 4.5:1
+        case (.regular, .a):
+            return 4.5  // Regular text A: 4.5:1 (same as AA)
         case (.regular, .aa):
             return 4.5  // Regular text AA: 4.5:1
         case (.regular, .aaa):
@@ -195,6 +199,9 @@ public struct ColorContrastCalculator: Sendable, Hashable, Codable {
 
 /// WCAG conformance levels for contrast requirements.
 public enum WCAGLevel: String, Sendable, Hashable, Codable, CaseIterable {
+    /// Level A (minimum conformance).
+    case a = "A"
+
     /// Level AA (standard): 4.5:1 for regular text, 3:1 for large text.
     case aa = "AA"
 
