@@ -1,9 +1,9 @@
 # SwiftVerificar-wcag-algs Progress
 
 ## Current State
-- Last completed sprint: 8
+- Last completed sprint: 9
 - Build status: passing
-- Total test count: 1093+
+- Total test count: 1260+
 - Cumulative coverage: 95%+
 
 ## Completed Sprints
@@ -15,10 +15,11 @@
 - Sprint 6: Content Extraction — 3 types, 106 new tests (880+ total) ✅
 - Sprint 7: Accessibility Checkers — 4 types, 120+ new tests (1000+ total) ✅
 - Sprint 8: Validation Runners — 3 types, 93 new tests (1093+ total) ✅
+- Sprint 9: PDF/UA Checkers — 4 types, 167 new tests (1260+ total) ✅
 
 ## Next Sprint
-- Sprint 9: Table Validation
-- Reference: TODO.md Phase 4
+- Sprint 10: (TBD)
+- Reference: TODO.md
 
 ## Files Created (cumulative)
 ### Sources
@@ -54,6 +55,10 @@
 - Sources/SwiftVerificarWCAGAlgs/Validation/ValidationRunner.swift
 - Sources/SwiftVerificarWCAGAlgs/Validation/ValidationReport.swift
 - Sources/SwiftVerificarWCAGAlgs/Validation/WCAGValidator.swift
+- Sources/SwiftVerificarWCAGAlgs/Checkers/PDFUAChecker.swift
+- Sources/SwiftVerificarWCAGAlgs/Checkers/TaggedPDFChecker.swift
+- Sources/SwiftVerificarWCAGAlgs/Checkers/RoleMapChecker.swift
+- Sources/SwiftVerificarWCAGAlgs/Checkers/TableChecker.swift
 
 ### Tests
 - Tests/SwiftVerificarWCAGAlgsTests/BoundingBoxTests.swift
@@ -88,6 +93,10 @@
 - Tests/SwiftVerificarWCAGAlgsTests/ValidationRunnerTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/ValidationReportTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/WCAGValidatorTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/PDFUACheckerTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/TaggedPDFCheckerTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/RoleMapCheckerTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/TableCheckerTests.swift
 
 ## Cross-Package Needs
 - (none)
