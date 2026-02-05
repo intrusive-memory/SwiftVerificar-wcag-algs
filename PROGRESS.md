@@ -1,9 +1,9 @@
 # SwiftVerificar-wcag-algs Progress
 
 ## Current State
-- Last completed sprint: 5
+- Last completed sprint: 6
 - Build status: passing
-- Total test count: 777+
+- Total test count: 880+
 - Cumulative coverage: 95%+
 
 ## Completed Sprints
@@ -12,10 +12,11 @@
 - Sprint 3: Non-Text Content — 4 types, 170 new tests (407 total) ✅
 - Sprint 4: Semantic Types and Nodes — 6 types, 263 new tests (670 total) ✅
 - Sprint 5: Structure Tree Analysis — 3 types, 107 new tests (777+ total) ✅
+- Sprint 6: Content Extraction — 3 types, 106 new tests (880+ total) ✅
 
 ## Next Sprint
-- Sprint 6: Contrast and Color
-- Reference: TODO.md Phase 2
+- Sprint 7: Table Validation
+- Reference: TODO.md Phase 4
 
 ## Files Created (cumulative)
 ### Sources
@@ -41,6 +42,9 @@
 - Sources/SwiftVerificarWCAGAlgs/Structure/StructureTreeAnalyzer.swift
 - Sources/SwiftVerificarWCAGAlgs/Structure/ReadingOrderValidator.swift
 - Sources/SwiftVerificarWCAGAlgs/Structure/HeadingHierarchyChecker.swift
+- Sources/SwiftVerificarWCAGAlgs/ContentExtraction/ColorContrastCalculator.swift
+- Sources/SwiftVerificarWCAGAlgs/ContentExtraction/TextExtractor.swift
+- Sources/SwiftVerificarWCAGAlgs/ContentExtraction/ImageAnalyzer.swift
 
 ### Tests
 - Tests/SwiftVerificarWCAGAlgsTests/BoundingBoxTests.swift
@@ -65,6 +69,9 @@
 - Tests/SwiftVerificarWCAGAlgsTests/StructureTreeAnalyzerTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/ReadingOrderValidatorTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/HeadingHierarchyCheckerTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/ColorContrastCalculatorTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/TextExtractorTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/ImageAnalyzerTests.swift
 
 ## Cross-Package Needs
 - (none)
