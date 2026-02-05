@@ -1,20 +1,21 @@
 # SwiftVerificar-wcag-algs Progress
 
 ## Current State
-- Last completed sprint: 2
-- Last commit hash: 5b2c194
+- Last completed sprint: 3
+- Last commit hash: 11288d7
 - Build status: passing
-- Total test count: 237
-- Cumulative coverage: 97.19%
+- Total test count: 407
+- Cumulative coverage: 97.45%
 
 ## Completed Sprints
 - Sprint 1: Geometry — 3 types, 95 new tests (105 total) ✅
 - Sprint 2: Text Content — 6 types, 132 new tests (237 total) ✅
+- Sprint 3: Non-Text Content — 4 types, 170 new tests (407 total) ✅
 
 ## Next Sprint
-- Sprint 3: Non-Text Content
-- Types to create: ImageChunk, LineChunk, LineArtChunk, LinesCollection
-- Reference: TODO.md Phase 1.2
+- Sprint 4: Semantic Types and Nodes
+- Types to create: SemanticType, SemanticNode, ContentNode, FigureNode, TableNode, ListNode
+- Reference: TODO.md Phase 2
 
 ## Files Created (cumulative)
 ### Sources
@@ -27,6 +28,10 @@
 - Sources/SwiftVerificarWCAGAlgs/Text/TextLine.swift
 - Sources/SwiftVerificarWCAGAlgs/Text/TextBlock.swift
 - Sources/SwiftVerificarWCAGAlgs/Text/TextColumn.swift
+- Sources/SwiftVerificarWCAGAlgs/NonText/ImageChunk.swift
+- Sources/SwiftVerificarWCAGAlgs/NonText/LineChunk.swift
+- Sources/SwiftVerificarWCAGAlgs/NonText/LineArtChunk.swift
+- Sources/SwiftVerificarWCAGAlgs/NonText/LinesCollection.swift
 
 ### Tests
 - Tests/SwiftVerificarWCAGAlgsTests/BoundingBoxTests.swift
@@ -38,6 +43,10 @@
 - Tests/SwiftVerificarWCAGAlgsTests/TextLineTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/TextBlockTests.swift
 - Tests/SwiftVerificarWCAGAlgsTests/TextColumnTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/ImageChunkTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/LineChunkTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/LineArtChunkTests.swift
+- Tests/SwiftVerificarWCAGAlgsTests/LinesCollectionTests.swift
 
 ## Cross-Package Needs
 - (none)
