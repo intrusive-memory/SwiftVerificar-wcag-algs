@@ -85,7 +85,7 @@ public struct ColorContrastCalculator: Sendable, Hashable, Codable {
     /// where R, G, and B are the normalized sRGB components.
     ///
     /// Each component is normalized by:
-    /// - If `c ≤ 0.03928`: `c / 12.92`
+    /// - If `c ≤ 0.04045`: `c / 12.92`
     /// - Otherwise: `((c + 0.055) / 1.055) ^ 2.4`
     ///
     /// - Parameter color: The color to analyze (must be convertible to sRGB).
@@ -187,7 +187,7 @@ public struct ColorContrastCalculator: Sendable, Hashable, Codable {
     /// - Parameter c: The sRGB component value (0.0 to 1.0).
     /// - Returns: The normalized (linearized) component value.
     private func normalizeColorComponent(_ c: CGFloat) -> CGFloat {
-        if c <= 0.03928 {
+        if c <= 0.04045 {
             return c / 12.92
         } else {
             return pow((c + 0.055) / 1.055, 2.4)

@@ -273,7 +273,7 @@ public struct LinkPurposeChecker: AccessibilityChecker {
 
     /// Extracts the effective link text from a node.
     ///
-    /// Prefers: Alt > ActualText > Title > child text content
+    /// Prefers: Alt > ActualText > Title > own text content > children text content
     private func extractLinkText(_ node: any SemanticNode) -> String {
         // Check for Alt text
         if let alt = node.altText, !alt.isEmpty {
@@ -290,16 +290,17 @@ public struct LinkPurposeChecker: AccessibilityChecker {
             return title
         }
 
-        // Extract text from children (ContentNode)
-        if let content = node as? ContentNode {
+        // Extract text from this node's own text blocks (ContentNode)
+        if let content = node as? ContentNode, !content.text.isEmpty {
             return content.text
         }
 
         // If node has children, try to extract text from them
         var texts: [String] = []
         for child in node.children {
-            if let content = child as? ContentNode, !content.text.isEmpty {
-                texts.append(content.text)
+            let childText = extractLinkText(child)
+            if !childText.isEmpty {
+                texts.append(childText)
             }
         }
 

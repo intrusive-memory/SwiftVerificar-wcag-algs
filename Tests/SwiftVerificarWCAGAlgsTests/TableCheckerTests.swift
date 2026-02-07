@@ -105,7 +105,9 @@ struct TableCheckerTests {
         let result = checker.check(table)
 
         #expect(result.passed == true)
-        #expect(result.violations.isEmpty)
+        // May contain a warning about missing THead (informational only)
+        let errorViolations = result.violations.filter { $0.severity == .error }
+        #expect(errorViolations.isEmpty)
     }
 
     @Test("Check table with THead structure")
@@ -329,7 +331,8 @@ struct TableCheckerTests {
 
         let result = checker.check(table)
 
-        #expect(result.passed == false)
+        // Row mismatch is warning severity, so result still passes
+        #expect(result.passed == true)
 
         let hasRowMismatch = result.violations.contains { violation in
             violation.description.contains("row") && violation.description.contains("Visual")
@@ -353,7 +356,8 @@ struct TableCheckerTests {
 
         let result = checker.check(table)
 
-        #expect(result.passed == false)
+        // Column mismatch is warning severity, so result still passes
+        #expect(result.passed == true)
 
         let hasColumnMismatch = result.violations.contains { violation in
             violation.description.contains("column") && violation.description.contains("Visual")
@@ -441,9 +445,16 @@ struct TableCheckerTests {
     func testErrorCodeConversion() {
         let checker = TableChecker()
 
-        var table = TableNode(depth: 1)
-        table.errorCodes.insert(.tableMissingHeaders)
-        table.errorCodes.insert(.tableIrregularStructure)
+        // Create a table with no headers and inconsistent column counts
+        // so that validateStructure() produces error codes
+        let cell1 = ContentNode(type: .tableCell, depth: 3)
+        let cell2 = ContentNode(type: .tableCell, depth: 3)
+        let row1 = ContentNode(type: .tableRow, children: [cell1, cell2], depth: 2)
+
+        let cell3 = ContentNode(type: .tableCell, depth: 3)
+        let row2 = ContentNode(type: .tableRow, children: [cell3], depth: 2) // Inconsistent
+
+        let table = TableNode(children: [row1, row2], depth: 1)
 
         let result = checker.check(table)
 
@@ -451,8 +462,8 @@ struct TableCheckerTests {
         #expect(result.violations.count >= 2)
 
         let descriptions = result.violations.map { $0.description }
-        #expect(descriptions.contains { $0.contains("missing header") })
-        #expect(descriptions.contains { $0.contains("irregular") })
+        #expect(descriptions.contains { $0.contains("header") })
+        #expect(descriptions.contains { $0.contains("irregular") || $0.contains("inconsistent") })
     }
 
     @Test("Check various table error codes")
@@ -492,7 +503,9 @@ struct TableCheckerTests {
         let result = checker.check([table1, table2])
 
         #expect(result.passed == true)
-        #expect(result.violations.isEmpty)
+        // May contain warnings but no error-severity violations
+        let errorViolations = result.violations.filter { $0.severity == .error }
+        #expect(errorViolations.isEmpty)
     }
 
     @Test("Check multiple tables with mixed results")

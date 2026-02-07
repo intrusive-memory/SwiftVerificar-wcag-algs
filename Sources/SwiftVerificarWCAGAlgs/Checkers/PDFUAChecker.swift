@@ -288,16 +288,26 @@ extension PDFUAChecker {
             allViolations.append(contentsOf: result.violations)
         }
 
-        if allViolations.isEmpty {
+        // Only fail if there are error-severity violations
+        let hasErrorViolations = allViolations.contains { $0.severity == .error }
+        if hasErrorViolations {
+            return .failing(
+                requirement: requirement,
+                violations: allViolations,
+                context: "Found \(allViolations.count) violation(s) in \(nodes.count) node(s)"
+            )
+        } else if allViolations.isEmpty {
             return .passing(
                 requirement: requirement,
                 context: "Checked \(nodes.count) node(s)"
             )
         } else {
-            return .failing(
+            // Only warnings/info -- still passing
+            return PDFUACheckResult(
                 requirement: requirement,
+                passed: true,
                 violations: allViolations,
-                context: "Found \(allViolations.count) violation(s) in \(nodes.count) node(s)"
+                context: "Checked \(nodes.count) node(s) (\(allViolations.count) informational note(s))"
             )
         }
     }

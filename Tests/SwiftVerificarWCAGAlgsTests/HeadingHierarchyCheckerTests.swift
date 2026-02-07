@@ -712,13 +712,14 @@ struct HeadingHierarchyCheckerTests {
     func validateComplexNestedStructure() {
         let checker = HeadingHierarchyChecker()
 
-        let h1 = makeTestNode(type: .h1, attributes: ["Alt": .string("Title")], depth: 1)
+        // Use meaningful heading text that won't match nonMeaningfulPatterns
+        let h1 = makeTestNode(type: .h1, attributes: ["Alt": .string("Introduction to SwiftVerificar")], depth: 1)
         let para1 = makeTestNode(type: .paragraph, depth: 1)
-        let h2 = makeTestNode(type: .h2, attributes: ["Alt": .string("Section 1")], depth: 1)
+        let h2 = makeTestNode(type: .h2, attributes: ["Alt": .string("Getting Started")], depth: 1)
         let para2 = makeTestNode(type: .paragraph, depth: 1)
-        let h3 = makeTestNode(type: .h3, attributes: ["Alt": .string("Subsection")], depth: 1)
+        let h3 = makeTestNode(type: .h3, attributes: ["Alt": .string("Installation Guide")], depth: 1)
         let para3 = makeTestNode(type: .paragraph, depth: 1)
-        let h2b = makeTestNode(type: .h2, attributes: ["Alt": .string("Section 2")], depth: 1)
+        let h2b = makeTestNode(type: .h2, attributes: ["Alt": .string("Advanced Usage")], depth: 1)
 
         let root = makeTestNode(
             type: .document,

@@ -36,7 +36,9 @@ struct ColorContrastCalculatorTests {
 
     @Test("Relative luminance: red")
     func testRelativeLuminanceRed() {
-        let red = CGColor(red: 1, green: 0, blue: 0, alpha: 1)
+        // Create color directly in sRGB color space for precise testing
+        let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
+        let red = CGColor(colorSpace: srgb, components: [1, 0, 0, 1])!
         let luminance = calculator.relativeLuminance(of: red)
         // Red luminance coefficient is 0.2126
         #expect(abs(luminance - 0.2126) < 0.001)
@@ -44,7 +46,8 @@ struct ColorContrastCalculatorTests {
 
     @Test("Relative luminance: green")
     func testRelativeLuminanceGreen() {
-        let green = CGColor(red: 0, green: 1, blue: 0, alpha: 1)
+        let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
+        let green = CGColor(colorSpace: srgb, components: [0, 1, 0, 1])!
         let luminance = calculator.relativeLuminance(of: green)
         // Green luminance coefficient is 0.7152
         #expect(abs(luminance - 0.7152) < 0.001)
@@ -52,7 +55,8 @@ struct ColorContrastCalculatorTests {
 
     @Test("Relative luminance: blue")
     func testRelativeLuminanceBlue() {
-        let blue = CGColor(red: 0, green: 0, blue: 1, alpha: 1)
+        let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
+        let blue = CGColor(colorSpace: srgb, components: [0, 0, 1, 1])!
         let luminance = calculator.relativeLuminance(of: blue)
         // Blue luminance coefficient is 0.0722
         #expect(abs(luminance - 0.0722) < 0.001)
@@ -60,7 +64,8 @@ struct ColorContrastCalculatorTests {
 
     @Test("Relative luminance: medium gray")
     func testRelativeLuminanceMediumGray() {
-        let gray = CGColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
+        let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
+        let gray = CGColor(colorSpace: srgb, components: [0.5, 0.5, 0.5, 1])!
         let luminance = calculator.relativeLuminance(of: gray)
         // For 0.5 sRGB: (0.5 + 0.055) / 1.055 ^ 2.4 ≈ 0.2140
         #expect(luminance > 0.2)
@@ -125,8 +130,10 @@ struct ColorContrastCalculatorTests {
     @Test("Contrast ratio: WCAG example - medium gray on white")
     func testContrastRatioWCAGExample() {
         // WCAG documentation example: #767676 on white
-        let gray = CGColor(red: 0x76/255.0, green: 0x76/255.0, blue: 0x76/255.0, alpha: 1)
-        let white = CGColor(red: 1, green: 1, blue: 1, alpha: 1)
+        // Use sRGB color space for precise testing
+        let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
+        let gray = CGColor(colorSpace: srgb, components: [0x76/255.0, 0x76/255.0, 0x76/255.0, 1])!
+        let white = CGColor(colorSpace: srgb, components: [1, 1, 1, 1])!
         let ratio = calculator.contrastRatio(foreground: gray, background: white)
         // This should be approximately 4.54:1
         #expect(ratio > 4.5)
@@ -198,9 +205,11 @@ struct ColorContrastCalculatorTests {
 
     @Test("Meets requirement: moderate contrast, large AA - passes")
     func testMeetsRequirementModerateContrastLargeAA() {
-        // 3.5:1 contrast - fails regular AA but passes large AA
-        let mediumGray = CGColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-        let white = CGColor(red: 1, green: 1, blue: 1, alpha: 1)
+        // Use sRGB color space for precise testing
+        // Gray 0.5 gives luminance ~0.214, contrast ~3.98:1 against white
+        let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
+        let mediumGray = CGColor(colorSpace: srgb, components: [0.5, 0.5, 0.5, 1])!
+        let white = CGColor(colorSpace: srgb, components: [1, 1, 1, 1])!
         let ratio = calculator.contrastRatio(foreground: mediumGray, background: white)
 
         let passesRegularAA = calculator.meetsRequirement(ratio: ratio, textType: .regular, level: .aa)
@@ -407,7 +416,8 @@ struct ColorContrastCalculatorTests {
 
     @Test("WCAG level: all cases")
     func testWCAGLevelAllCases() {
-        #expect(WCAGLevel.allCases.count == 2)
+        #expect(WCAGLevel.allCases.count == 3)
+        #expect(WCAGLevel.allCases.contains(.a))
         #expect(WCAGLevel.allCases.contains(.aa))
         #expect(WCAGLevel.allCases.contains(.aaa))
     }

@@ -176,15 +176,44 @@ public struct TaggedPDFChecker: PDFUAChecker {
         return count
     }
 
+    /// Standard PDF structure element types that can legitimately exist
+    /// as empty containers or structural elements. These are block-level,
+    /// grouping, inline, and content element types recognized by PDF/UA.
+    private static let validStructureTypes: Set<SemanticType> = [
+        // Document level
+        .document, .part, .article, .section, .div,
+        // Block structure
+        .paragraph, .span, .blockQuote, .index,
+        // Headings
+        .heading, .h1, .h2, .h3, .h4, .h5, .h6,
+        // Lists
+        .list, .listItem, .listLabel, .listBody,
+        // Tables
+        .table, .tableRow, .tableHeader, .tableCell,
+        .tableHead, .tableBody, .tableFoot,
+        // Special content
+        .figure, .caption, .formula, .form, .code, .title,
+        // Links and annotations
+        .link, .annotation, .reference, .note,
+        // Navigation
+        .toc, .tocItem, .bibliography, .quote,
+        // Ruby
+        .ruby, .rubyBase, .rubyText, .rubyPunctuation,
+        // Warichu
+        .warichu, .warichuText, .warichuPunctuation,
+        // Presentational
+        .artifact, .nonStruct, .privateElement,
+        // Document headers/footers
+        .documentHeader, .documentFooter
+    ]
+
     /// Finds elements with invalid or unrecognized types.
     private func findInvalidElements(_ node: any SemanticNode) -> [any SemanticNode] {
         var invalid: [any SemanticNode] = []
 
-        // Check if this node has a recognized type
-        // In practice, SemanticType enum contains all valid types,
-        // but we can check for empty or unusual configurations
-        if node.children.isEmpty && node.boundingBox == nil && node.type != .document {
-            // Empty element with no content and no bounding box is suspicious
+        // All SemanticType enum cases represent recognized PDF structure types.
+        // Only flag nodes whose type is not in the known valid set.
+        if !Self.validStructureTypes.contains(node.type) {
             invalid.append(node)
         }
 

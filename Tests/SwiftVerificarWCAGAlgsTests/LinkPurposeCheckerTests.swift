@@ -377,11 +377,12 @@ struct LinkPurposeCheckerTests {
 
     @Test("Duplicate link text allowed when requireDistinctText is false")
     func testDuplicateLinkTextAllowed() {
+        // Use non-generic text to avoid generic text detection; only test distinct text logic
         let checker = LinkPurposeChecker(requireDistinctText: false)
 
         let links: [ContentNode] = [
-            ContentNode(type: .link, attributes: ["Alt": .string("Learn more")], depth: 1),
-            ContentNode(type: .link, attributes: ["Alt": .string("Learn more")], depth: 1)
+            ContentNode(type: .link, attributes: ["Alt": .string("Visit the documentation portal")], depth: 1),
+            ContentNode(type: .link, attributes: ["Alt": .string("Visit the documentation portal")], depth: 1)
         ]
 
         let result = checker.check(links)

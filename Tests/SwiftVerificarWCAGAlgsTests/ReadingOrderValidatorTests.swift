@@ -175,6 +175,7 @@ struct ReadingOrderValidatorTests {
         #expect(result.isValid == false)
         let reverseIssues = result.issues.filter { $0.type == .reverseDirection }
         #expect(reverseIssues.count >= 1)
+        guard !reverseIssues.isEmpty else { return }
         #expect(reverseIssues[0].severity == .warning)
     }
 
@@ -224,18 +225,21 @@ struct ReadingOrderValidatorTests {
         let options = ReadingOrderValidator.Options(verticalTolerance: 1.0)
         let validator = ReadingOrderValidator(options: options)
 
-        // Nodes with gap beyond strict tolerance
-        let box1 = makeBox(x: 100, y: 103, width: 200, height: 50)
+        // Node 1 is lower (y=100), node 2 is higher (y=103).
+        // Use small heights so they don't overlap vertically, forcing
+        // the validator to compare top edges.
+        let box1 = makeBox(x: 100, y: 100, width: 200, height: 2)
         let para1 = makeTestNode(type: .paragraph, boundingBox: box1)
 
-        let box2 = makeBox(x: 100, y: 100, width: 200, height: 50)
+        // Node 2 is above node 1 (wrong reading order for top-to-bottom)
+        let box2 = makeBox(x: 100, y: 104, width: 200, height: 2)
         let para2 = makeTestNode(type: .paragraph, boundingBox: box2)
 
         let root = makeTestNode(type: .document, boundingBox: nil, children: [para1, para2])
 
         let result = validator.validate(root)
 
-        // Should trigger with strict tolerance
+        // Should trigger with strict tolerance (gap of 4 > tolerance of 1.0)
         let outOfOrderIssues = result.issues.filter { $0.type == .outOfOrder }
         #expect(outOfOrderIssues.count >= 1)
     }

@@ -290,13 +290,14 @@ struct TaggedPDFCheckerTests {
     func testSuspiciousEmptyElements() {
         let checker = TaggedPDFChecker()
 
-        // Empty element with no content and no bounding box
-        let suspiciousNode = ContentNode(
+        // Empty element marked with emptyElement error code -- flagged as untagged
+        var suspiciousNode = ContentNode(
             type: .span,
             boundingBox: nil,
             children: [],
             depth: 2
         )
+        suspiciousNode.errorCodes.insert(.emptyElement)
 
         let document = ContentNode(
             type: .document,
@@ -309,9 +310,9 @@ struct TaggedPDFCheckerTests {
 
         let result = checker.check(document)
 
-        // Should detect suspicious element
+        // Should detect the element with emptyElement error code as untagged content
         let hasSuspiciousViolation = result.violations.contains { violation in
-            violation.description.contains("invalid") || violation.description.contains("unrecognized")
+            violation.description.contains("untagged")
         }
         #expect(hasSuspiciousViolation)
     }

@@ -133,16 +133,27 @@ public struct TableChecker: PDFUAChecker {
         violations.append(contentsOf: checkErrorCodes(tableNode))
 
         // Return result
-        if violations.isEmpty {
+        // Only fail if there are error-severity violations; warnings and info
+        // are informational and should not cause the check to fail.
+        let hasErrorViolations = violations.contains { $0.severity == .error }
+        if hasErrorViolations {
+            return .failing(
+                requirement: requirement,
+                violations: violations,
+                context: "Found \(violations.count) table violation(s)"
+            )
+        } else if violations.isEmpty {
             return .passing(
                 requirement: requirement,
                 context: "Table is properly structured with \(tableNode.rowCount) rows"
             )
         } else {
-            return .failing(
+            // Only warnings/info -- still passing but include violations
+            return PDFUACheckResult(
                 requirement: requirement,
+                passed: true,
                 violations: violations,
-                context: "Found \(violations.count) table violation(s)"
+                context: "Table is properly structured with \(tableNode.rowCount) rows (\(violations.count) informational note(s))"
             )
         }
     }
@@ -290,16 +301,17 @@ public struct TableChecker: PDFUAChecker {
                 )
             }
 
-            // Check for invalid cell types
-            for cell in cells {
-                if cell.type != .tableHeader && cell.type != .tableCell {
+            // Check ALL children for invalid cell types (not just those returned by cellsInRow)
+            let allChildren = row.children.compactMap { $0 as? ContentNode }
+            for child in allChildren {
+                if child.type != .tableHeader && child.type != .tableCell {
                     violations.append(
                         PDFUAViolation(
-                            nodeId: cell.id,
-                            nodeType: cell.type,
-                            description: "Invalid cell type '\(cell.type.rawValue)' in table row (expected TH or TD)",
+                            nodeId: child.id,
+                            nodeType: child.type,
+                            description: "Invalid cell type '\(child.type.rawValue)' in table row (expected TH or TD)",
                             severity: .error,
-                            location: cell.boundingBox
+                            location: child.boundingBox
                         )
                     )
                 }

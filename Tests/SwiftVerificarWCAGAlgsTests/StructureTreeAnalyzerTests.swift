@@ -83,8 +83,9 @@ struct StructureTreeAnalyzerTests {
     @Test("Analyze simple valid tree")
     func analyzeSimpleValidTree() {
         let analyzer = StructureTreeAnalyzer()
-        let child1 = makeTestNode(type: .paragraph, depth: 1)
-        let child2 = makeTestNode(type: .paragraph, depth: 1)
+        // Give paragraphs text alternatives so they are not flagged as empty
+        let child1 = makeTestNode(type: .paragraph, attributes: ["ActualText": .string("Content 1")], depth: 1)
+        let child2 = makeTestNode(type: .paragraph, attributes: ["ActualText": .string("Content 2")], depth: 1)
         let root = makeTestNode(type: .document, children: [child1, child2])
 
         let result = analyzer.analyze(root)
@@ -98,7 +99,8 @@ struct StructureTreeAnalyzerTests {
     @Test("Analyze deep tree tracks max depth")
     func analyzeDeepTree() {
         let analyzer = StructureTreeAnalyzer()
-        let level3 = makeTestNode(type: .span, depth: 3)
+        // Give leaf span text so it is not flagged as empty
+        let level3 = makeTestNode(type: .span, attributes: ["ActualText": .string("Text")], depth: 3)
         let level2 = makeTestNode(type: .paragraph, children: [level3], depth: 2)
         let level1 = makeTestNode(type: .div, children: [level2], depth: 1)
         let root = makeTestNode(type: .document, children: [level1])
@@ -502,7 +504,8 @@ struct StructureTreeAnalyzerTests {
         let result = analyzer.analyze(root)
 
         let grouped = result.errorsByType
-        #expect(grouped[.emptyElement]?.count == 1)
+        // Both the paragraph and figure are empty, so 2 empty element errors
+        #expect(grouped[.emptyElement]?.count == 2)
         #expect(grouped[.missingAttribute]?.count == 1)
     }
 

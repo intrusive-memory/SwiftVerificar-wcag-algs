@@ -110,10 +110,12 @@ public struct AltTextChecker: AccessibilityChecker {
         }
 
         // Check for alternative text
-        violations.append(contentsOf: checkFigureAltText(figure))
+        let figureViolations = checkFigureAltText(figure)
+        violations.append(contentsOf: figureViolations)
 
-        // Check image chunks if enabled
-        if checkImageChunks {
+        // Check image chunks if enabled, but only if the figure-level
+        // check didn't already report missing alt text (avoid double-counting).
+        if checkImageChunks && figureViolations.isEmpty {
             violations.append(contentsOf: checkImageChunksAltText(figure))
         }
 
@@ -199,6 +201,11 @@ public struct AltTextChecker: AccessibilityChecker {
 
         // If figure has alt text, individual images don't need it
         if figure.hasAltText {
+            return violations
+        }
+
+        // If accepting captions and figure has a caption, images are covered
+        if acceptCaptionAsAlt && figure.hasCaption {
             return violations
         }
 

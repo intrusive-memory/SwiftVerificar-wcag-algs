@@ -369,12 +369,11 @@ public struct ReadingOrderValidator: Sendable {
         let currentBox = current.box.rect
         let nextBox = next.box.rect
 
-        // In PDF coordinates, Y increases upward from bottom-left origin
+        // In PDF coordinates, Y increases upward from bottom-left origin.
         // Reading order is top to bottom, so we expect:
         // - current.maxY (top of current) >= next.maxY (top of next)
-        // If next.maxY > current.minY, next is significantly above current (wrong order)
+        // If next's top is significantly above current's top, it's out of order.
 
-        let verticalGap = nextBox.maxY - currentBox.minY
         let horizontalDistance: CGFloat
 
         switch options.readingDirection {
@@ -384,30 +383,14 @@ public struct ReadingOrderValidator: Sendable {
             horizontalDistance = currentBox.minX - nextBox.maxX
         }
 
-        // If next is significantly above current (next.maxY > current.minY + tolerance), it's out of order
-        if verticalGap > options.verticalTolerance {
-            return ReadingOrderIssue(
-                type: .outOfOrder,
-                severity: .critical,
-                nodeId1: current.node.id,
-                nodeId2: next.node.id,
-                message: "Content appears out of vertical order",
-                pageIndex: pageIndex,
-                context: [
-                    "verticalGap": String(format: "%.2f", verticalGap),
-                    "currentBottom": String(format: "%.2f", currentBox.minY),
-                    "nextTop": String(format: "%.2f", nextBox.maxY)
-                ]
-            )
-        }
-
-        // Check if roughly same vertical position (same line)
+        // Check if roughly same vertical position (same line) first.
+        // Use half the smaller element height as the threshold for "same line".
         let sameLineThreshold = min(currentBox.height, nextBox.height) * 0.5
         let verticalOverlap = min(currentBox.maxY, nextBox.maxY)
             - max(currentBox.minY, nextBox.minY)
 
         if verticalOverlap > sameLineThreshold {
-            // On same line - check horizontal order
+            // On same line - check horizontal order only
             if horizontalDistance < -options.horizontalTolerance {
                 return ReadingOrderIssue(
                     type: .reverseDirection,
@@ -419,6 +402,26 @@ public struct ReadingOrderValidator: Sendable {
                     context: [
                         "horizontalDistance": String(format: "%.2f", horizontalDistance),
                         "readingDirection": options.readingDirection.rawValue
+                    ]
+                )
+            }
+        } else {
+            // Different vertical positions -- check if next is above current
+            // (wrong reading direction for top-to-bottom).
+            // Compare the top edges (maxY) of both boxes.
+            let verticalGap = nextBox.maxY - currentBox.maxY
+            if verticalGap > options.verticalTolerance {
+                return ReadingOrderIssue(
+                    type: .outOfOrder,
+                    severity: .critical,
+                    nodeId1: current.node.id,
+                    nodeId2: next.node.id,
+                    message: "Content appears out of vertical order",
+                    pageIndex: pageIndex,
+                    context: [
+                        "verticalGap": String(format: "%.2f", verticalGap),
+                        "currentTop": String(format: "%.2f", currentBox.maxY),
+                        "nextTop": String(format: "%.2f", nextBox.maxY)
                     ]
                 )
             }
